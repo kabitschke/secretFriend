@@ -5,18 +5,18 @@ import https from 'https';
 import http from 'http';
 import siteRoutes from './routes/site';
 import { requestIntercepter } from './utils/requestIntercepter';
+import adminRoutes from './routes/admin';
 
 const app = express();
 
 
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 
 app.all('*', requestIntercepter);
-
-//app.use('admin', adminRoutes);
+app.use('/admin', adminRoutes);
 app.use('/', siteRoutes);
 
 const runServer = (port: number, server: http.Server) => {
@@ -27,11 +27,11 @@ const runServer = (port: number, server: http.Server) => {
 
 
 const regularServer = http.createServer(app);
-if(process.env.NODE_ENV === 'production'){
+if (process.env.NODE_ENV === 'production') {
     //TODO: configurar SSL
     //TODO: roda server na 80 e na 443
-}else{
-    const serverPort:number = process.env.PORT ? parseInt(process.env.PORT) :9000;
+} else {
+    const serverPort: number = process.env.PORT ? parseInt(process.env.PORT) : 9000;
     runServer(serverPort, regularServer);
 }
 
