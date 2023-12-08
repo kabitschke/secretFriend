@@ -25,5 +25,7 @@ router.put('/events/:id_event/groups/:id', auth.validate, groups.updateGrpup);
 router.delete('/events/:id_events/groups/:id', auth.validate, groups.deleteGroup);
 
 router.get('/events/:id_events/groups/:id_group/people', auth.validate, people.getAll);
+router.get('/events/:id_events/groups/:id_group/people/:id', auth.validate, people.getPerson);
+
 
 export default router;

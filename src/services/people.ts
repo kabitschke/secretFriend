@@ -10,3 +10,12 @@ export const getAll = async (filters: GetAllFilters) => {
   } catch (err) { return false }
 }
 
+
+
+type GetOneFilters = { id_event: number; id_group?: number; id?: number; cpf?: string }
+export const getOne = async (filters: GetOneFilters) => {
+  try {
+    if (!filters.id && !filters.cpf) return false;
+    return await prisma.eventPeople.findFirst({ where: filters })
+  } catch (err) { return false }
+}
