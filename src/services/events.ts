@@ -1,4 +1,7 @@
 import { PrismaClient, Prisma } from "@prisma/client";
+import * as people from  './people';
+import * as groups from './groups';
+
 
 const prisma = new PrismaClient();
 
@@ -41,4 +44,39 @@ export const remove = async (id: number) => {
         return await prisma.event.delete({ where: { id } })
 
     } catch (err) { return false }
+}
+
+export const doMatches = async (id: number): Promise<boolean> => {
+        const  eventItem = await prisma.event.findFirst({where: {id}, select: {grouped: true}});
+
+        if(eventItem){
+            const peopleList = await people.getAll({id_event: id});
+
+            if(peopleList){
+                let sortedList: {id:number, match:number} [] = [];
+                let sortable: number[] = [];
+
+
+                let attempts = 0;
+                let maxAttempts = peopleList.lenght;
+                let keepTrying = true;
+                while(keepTrying && attempts < maxAttempts){
+
+                }
+
+
+                // if(attempts < maxAttempts){
+                //     for(let i in sortedList){
+                //         await people.update({
+                //             id: sortedList[i].id,
+                //             id_event: id
+                //         }, { matched: ''});  // TODO: Criar  encryptMatch()  
+                //     }
+                //     return true;
+                // }
+            }
+        }
+
+
+    return false;
 }
